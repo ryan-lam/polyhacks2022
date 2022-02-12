@@ -31,10 +31,11 @@ $input-colour: rgb(243, 243, 243);
 
 button{
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
     font-size: 20px;
     padding: 10px 20px;
     color: white;
+    transition: all .4s;
     &:hover{
         cursor: pointer;
     }

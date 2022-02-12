@@ -30,7 +30,7 @@
 		</section>
 		<img src="../assets/img/bg15-2.png" alt="banner" class="imgone">
 	</main>
-	<Login v-show="showed" logintype="Teacher"/>
+	<Login v-show="showed" :logintype="this.person" :bordercolour="this.bcolour"/>
 
 </template>
 
@@ -47,14 +47,19 @@ export default {
 		return{
 			showed: false,
 			person: "Teacher",
+			bcolour: "#549adb"
 		}
 	},
 	methods:{
 		teacherLogin(){
 			this.showed = true;
+			this.person = "Teacher";
+			this.bcolour = "#549adb";
 		},
 		studentLogin(){
 			this.showed = true;
+			this.person = "Student";
+			this.bcolour = "#ac7df0";
 		},
 		close(){
 			this.showed = false;
