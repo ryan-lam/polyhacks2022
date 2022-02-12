@@ -1,5 +1,7 @@
 <template>
+	<Login v-show="showed" logintype="Teacher"/>
 	<main>
+		
 		<nav>
 			<h1>COURODE</h1>
 			<section class="links">
@@ -23,8 +25,8 @@
 			<h1 class="content__title">Revolutionizing the Education System with AI.</h1>
 			<p class="content__subtitle">Transfer speech to text including a range of other useful tools</p>
 			<div class="content__buttons">
-				<button class="content__buttons--teacher">Teacher Login</button>
-				<button class="content__buttons--student">Student Login</button>
+				<button class="content__buttons--teacher" v-on:click="teacherLogin()">Teacher Login</button>
+				<button class="content__buttons--student" v-on:click="studentLogin()">Student Login</button>
 			</div>
 		</section>
 		<img src="../assets/img/bg15-2.png" alt="banner" class="imgone">
@@ -34,13 +36,27 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Login from '@/components/Login.vue'
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
+	name: 'Home',
+	components: {
+		Login
+	},
+	data(){
+		return{
+			showed: false,
+			person: "Teacher",
+		}
+	},
+	methods:{
+		teacherLogin(){
+			this.showed = true;
+		},
+		studentLogin(){
+			this.showed = true;
+		}
+	}
 }
 </script>
 <style lang="scss" scoped>
@@ -50,8 +66,6 @@ nav{
 	position: relative;
 	width: 100%;
 	height: 80px;
-
-
 
 	& > h1{
 	
