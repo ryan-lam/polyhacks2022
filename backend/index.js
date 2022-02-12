@@ -14,7 +14,7 @@ admin.initializeApp({
 });
 
 app.use("/class", require("./routes/class"))
-
+app.use("/uploadcontent", require("./routes/uploadcontent"))
 
 
 
