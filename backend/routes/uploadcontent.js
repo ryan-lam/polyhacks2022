@@ -46,7 +46,7 @@ router.get("/test", async (req, res) => {
     });
     var p2 = await assembly
                 .post("/transcript", {
-                    audio_url: "https://cdn.assemblyai.com/upload/084e01e6-6531-43ff-ac97-04f8f43eaf7b"
+                    audio_url: "https://66.90.84.66.sslip.io/dl2/ZMBN7O4uY_t2Yvx6sYffeH-EnojkTtqz-MmNo93ltWHkFlCbhMbaAUAriETbQWFV2OGIIkha98TpM3aRTQZhYT8yQcDUES9N0AeCg49wreQst7rekgvdFrM2yu5L8CJJbkPK3H4ZUfcUzSIs_Lwzdvu5NbRcW2Ry_Cikx9QPY3dIZ9Wyk9YvVQKZlAGlcgbjSODqNzTd1Uz2P3iNDFTY_a8FnHTywhD4_a1JEFchbq69bFCc_LrMDRgA0n4SQSvzXoO5kZEr6C1gC1-pZ4RMMFc10Md9RxW9a3YwPlk_KhsfXzXS0uUasOtWX3F4gPLuzza9E-GA_93oe4sROJ_htHP6_TGfb5yQjWVdpDWw0t_4PvXugc-gqCvFgjmbfqKCK9EBedf2HcPWDZi_BSrdaUjW8kOWfQNckIEHzpsawpx7S6Lrg-QVOjdXeCr1fIQFDQWxthERiXHHO4TaxRZoJOJkLcDUyQ-4jG3_jbZgx89-A3Wzm82dBSjtkoR6jP50wttyYg-PvEvtMI6WgEwDkOYUy2cxlWgLUHX79IzK0echrQmXBMDXwxYNqSHx05iShKfDMOhV2KxOv69SDSbXL4HTxZxoT-uvJU3q1ZGpy0fk5brTCBi-5ksOkALe5a1t3hIVRTfQQmEqqNUyeP4l-nCUZvqosMf5H_z409g-ToE4koY06cqIbEsFBe1xDKGOrKsz-OWbYYSmXEWeeR9izqfyvgOh_Cref8YLiBS3MKeA0D19R4BDSrd3keCSyVVV0wpKZxgtZTdFI3zSMx1sSFoPVSxQ2m9aF8eAWxJLKDdf8FdjsThG_Qsyqvz7ekhvJSOcSZLoYuoIUdZeDNBzOG0_l7UTytxnyc_V636TdJFk67VyK8ElsqLOVA0LJXUFh0zG8HNYjbxhiLrLef4JjWugpcVH3DRkfxtTtY6sccOPMjjW5WWYs9K7Xo_pw9S4ZEv_imabeO0AwMnTMtb1HmiLYVDqp948OTKFsLZ6HiVHGbfewN99dLgDofI0Ci7W4NYIYYAz1UD5yDzIfC2bUVznhArIuVGC2xErnzJPyfOwSzwej40rsBy-K716YYkhJKp2KQUqq7zn9x3Itq4Y3yAEqK05a-PGZjcHuW-QgFOAdbWP5tIeEndsIFim7S8u_RjJ1Ic_9nJYoDp9JZcZgc_oSHAPSM7vPT416AX2tGPr3ENy55WkFA2aZCuoDl6DUikIjZIKrm00OfbJtTducUINJ0-_MTUX056aoLDgooMjay4W_-EFLyu2d2c41TVKW9Icodfyem43bnJ8nRAGI_YXKuv1s2aCSWLXn9rrm7qPCPHmXA/KxClbFep"
                 })
                 .then((res) => {
                     return res.data
@@ -69,6 +69,7 @@ router.get("/test", async (req, res) => {
                 })
         if (results.status != 'completed') {
             console.log("Waiting...")
+            await setTimeout(()=>{}, 5000)
             return await getResults()
         } else {
             return results
