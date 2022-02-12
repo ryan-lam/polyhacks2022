@@ -13,6 +13,9 @@
   text-align: center;
   color: #2c3e50;
   position: relative;
+  width: 100%;
+  height: 100%;
+  
 }
 
 

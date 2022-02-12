@@ -1,6 +1,6 @@
 <template>
 	<div class="shadow" v-show="showed" @click="close">
-		
+
 	</div>
 	<main>
 		<nav>
@@ -57,11 +57,15 @@ export default {
 			this.showed = true;
 			this.person = "Teacher";
 			this.bcolour = "#549adb";
+			this.$store.commit("changePerson", "Teacher");
+			this.$store.commit("changeColour", "#549adb");
 		},
 		studentLogin(){
 			this.showed = true;
 			this.person = "Student";
 			this.bcolour = "#ac7df0";
+			this.$store.commit("changePerson", "Student");
+			this.$store.commit("changeColour", "#ac7df0");
 		},
 		close(){
 			this.showed = false;
@@ -111,6 +115,7 @@ nav{
 
 			&:hover{
 				color: $secondary-colour-hover;
+				cursor: pointer;
 			}
 
 		}

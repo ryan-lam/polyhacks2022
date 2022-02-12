@@ -1,7 +1,7 @@
 <template>
     <main class="form" :style="{'border-color': bordercolour}">
         <h1 :style="{'color': bordercolour}">{{logintype}} LogIn</h1>
-        <input type="text" placeholder="Your Username" :style="{'--bgColor': bordercolour}">
+        <input type="text" placeholder="Your Username" :style="{'--bgColor': bordercolour}" v-model="username">
         <input type="password" placeholder="Your Password" :style="{'--bgColor': bordercolour}">
         <button class="logbtn" @click="login()">Login</button>
         <p>Sign up with:</p>
@@ -29,12 +29,13 @@ export default {
     },
     data(){
         return{
-            
+            username: "",
         }
     },
     methods:{
         login(){
-            
+            console.log(this.username);
+            this.$store.commit("changeUsername", this.username);
             this.$router.push("/courses");
         }
     }
