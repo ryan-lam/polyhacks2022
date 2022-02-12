@@ -3,7 +3,7 @@
         <h1 :style="{'color': bordercolour}">{{logintype}} LogIn</h1>
         <input type="text" placeholder="Your Username" :style="{'--bgColor': bordercolour}">
         <input type="password" placeholder="Your Password" :style="{'--bgColor': bordercolour}">
-        <button class="logbtn">Login</button>
+        <button class="logbtn" @click="login()">Login</button>
         <p>Sign up with:</p>
         <div class="options">
             <a href="#" class="fb btn">
@@ -30,6 +30,12 @@ export default {
     data(){
         return{
             
+        }
+    },
+    methods:{
+        login(){
+            
+            this.$router.push("/courses");
         }
     }
 }
