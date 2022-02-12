@@ -8,8 +8,16 @@ const { FieldValue } = require("firebase/firestore")
 const classDB = db.collection("class")
 const discussionsDB = db.collection("discussions")
 
-router.get("/:classId", (req, res) => {
-    return res.send(req.params.classId)
+router.get("/:classId", async (req, res) => {
+    const classId = req.params.classId
+    var classDiscussionList = []
+    const classDiscussionIdList = (await classDB.doc(classId).get()).data().discussions
+    for (discussionId of classDiscussionIdList) {
+        const discussion = (await discussionsDB.doc(discussionId).get()).data()
+        classDiscussionList.push(discussion)
+    }
+    console.log(classDiscussionList)
+    return res.json({data:classDiscussionList})
 })
 
 router.post("/discussion/:classId", async (req, res) => {
@@ -33,7 +41,6 @@ router.post("/discussion/:classId", async (req, res) => {
         const newDiscussion = await discussionsDB.doc(discussionId).get()
         console.log(newDiscussion.data())
         return res.json(newDiscussion.data())
-
     } else if (contentType == "reply") {
         // requires, discussionId, author, time, content
         const {discussionId, author, time, content} = req.body
@@ -43,7 +50,6 @@ router.post("/discussion/:classId", async (req, res) => {
         const newReply = await discussionsDB.doc(discussionId).get()
         console.log(newReply.data())
         return res.json(newReply.data())
-
     } else {
         return res.json({data: null})
     }
