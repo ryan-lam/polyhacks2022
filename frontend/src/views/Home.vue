@@ -1,7 +1,6 @@
 <template>
-	<Login v-show="showed" logintype="Teacher"/>
+	<div class="shadow" v-show="showed" @click="close"></div>
 	<main>
-		
 		<nav>
 			<h1>COURODE</h1>
 			<section class="links">
@@ -31,6 +30,7 @@
 		</section>
 		<img src="../assets/img/bg15-2.png" alt="banner" class="imgone">
 	</main>
+	<Login v-show="showed" logintype="Teacher"/>
 
 </template>
 
@@ -55,6 +55,9 @@ export default {
 		},
 		studentLogin(){
 			this.showed = true;
+		},
+		close(){
+			this.showed = false;
 		}
 	}
 }
@@ -165,6 +168,14 @@ main{
 	right: 0;
 	transform: translate(-80px, -55%);
 	z-index: 1;
+
+}
+.shadow{
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.233);
+	position: absolute;
+	z-index: 4;
 
 }
 </style>

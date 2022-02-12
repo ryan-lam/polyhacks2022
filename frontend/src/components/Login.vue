@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main class="form">
         <h1>{{logintype}} Log In</h1>
         <input type="text" placeholder="Username">
         <input type="password" placeholder="Username">
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-main{
+.form{
     position: fixed;
     z-index: 5;
     top: 50%;
@@ -44,6 +44,6 @@ main{
     border-radius: 10px;
     width: 500px;
     height: 500px;
-    
+    background-color: red;
 }
 </style>
