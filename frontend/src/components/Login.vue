@@ -1,6 +1,6 @@
 <template>
-    <main class="form">
-        <h1>{{logintype}} LogIn</h1>
+    <main class="form" :style="{'border-color': bordercolour}">
+        <h1 :style="{'color': bordercolour}">{{logintype}} LogIn</h1>
         <input type="text" placeholder="Your Username" :style="{'--bgColor': bordercolour}">
         <input type="password" placeholder="Your Password" :style="{'--bgColor': bordercolour}">
         <button class="logbtn">Login</button>
@@ -50,6 +50,8 @@ h1{
     height: 500px;
     box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.247);
     background-color: white;
+    border: 4px solid #549adb;
+  
 }
 input{
     display: block;
@@ -77,6 +79,11 @@ input{
     
     background: rgb(172,125,240);
     background: linear-gradient(344deg, rgba(172,125,240,1) 0%, rgba(84,154,219,1) 100%);
+
+    &:hover{
+        background: rgb(138,88,207);
+        background: linear-gradient(344deg, rgba(138,88,207,1) 0%, rgba(63,124,180,1) 100%);
+    }
 }
 
 p{

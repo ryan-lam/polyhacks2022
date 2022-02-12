@@ -1,5 +1,7 @@
 <template>
-	<div class="shadow" v-show="showed" @click="close"></div>
+	<div class="shadow" v-show="showed" @click="close">
+		
+	</div>
 	<main>
 		<nav>
 			<h1>COURODE</h1>
