@@ -11,14 +11,19 @@ body, html{
  
 }
 
-$bgcolour: #FFFF;
+$bgcolour: #f5f5fc;
 
 $vue-black: #2c3e50;
 $black: #2A2B2A;
 $sub-black: #706C61;
-$primary-colour: #d188ee;
-$primary-hover: #2ea2be;
-$secondary-colour: #FF8966;
+
+$primary-colour: #549adb;
+$secondary-colour: #ac7df0;
+
+$primary-colour-hover: #3f7cb4;
+$secondary-colour-hover: #8a58cf;
+
+
 $red: #b84242;
 $green: #42b883;
 
@@ -27,6 +32,9 @@ $input-colour: rgb(243, 243, 243);
 button{
     border: none;
     border-radius: 10px;
+    font-size: 20px;
+    padding: 10px 20px;
+    color: white;
     &:hover{
         cursor: pointer;
     }
@@ -41,6 +49,9 @@ input{
 
 a{
     &:active{
-
+        color: inherit;
+    }
+    &:visited{
+        color: inherit;
     }
 }
