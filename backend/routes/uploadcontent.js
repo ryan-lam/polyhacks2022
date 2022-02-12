@@ -46,7 +46,8 @@ router.get("/test", async (req, res) => {
     });
     var p2 = await assembly
                 .post("/transcript", {
-                    audio_url: "https://cdn.assemblyai.com/upload/084e01e6-6531-43ff-ac97-04f8f43eaf7b"
+                    audio_url: "https://github.com/ryan-lam/polyhacks2022/raw/f4c35267844af126bd370f627fde831b30a30fb3/backend/test2audio.mp3",
+                    "auto_chapters": true
                 })
                 .then((res) => {
                     return res.data
@@ -61,6 +62,7 @@ router.get("/test", async (req, res) => {
             "content-type": "application/json",
         },
     });
+    var count = 0
     const getResults = async () => {
         var results = await assembly
                 .get(`/transcript/${p2.id}`)
@@ -68,7 +70,8 @@ router.get("/test", async (req, res) => {
                     return res.data
                 })
         if (results.status != 'completed') {
-            console.log("Waiting...")
+            console.log(count)
+            count = count + 1
             return await getResults()
         } else {
             return results
