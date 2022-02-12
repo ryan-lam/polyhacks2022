@@ -21,7 +21,7 @@ app.use("/class", require("./routes/class"))
 
 
 
-app.get("/", (req, res) => {res.send("Backend Running")})
+app.get("/", (req, res) => {return res.send("Backend Running")})
 
 
 
