@@ -34,18 +34,54 @@ router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
 router.use(express.static('public'))
 
+
+
+router.get('/',(req, res) => {
+    res.sendFile(__dirname +'/home.html')
+})
+
+
+router.post('/convert',upload.single('file'), async (req,res,next) => {
+    var fileURL = null
+    if(req.file){
+        // add file to server
+        console.log("add file to server")
+        console.log("C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path)
+        const filePath = "C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path
+        const fileName = req.file.path
+        // upload file to cloud
+        console.log("Add file to gcloud")
+        await storageRef.upload(filePath, {
+            destination: req.file.path,
+          });
+        console.log(`${filePath} uploaded to ${storageRef} as ${req.file.path}`);
+        // get cloud url
+        console.log("Get gcloud url")
+        const options = {
+            action: 'read',
+            expires: Date.now() + 180 * 60 * 1000, // 3h
+          };
+        const url = await storageRef.file(fileName).getSignedUrl(options);
+        console.log('Generated GET signed URL:');
+        fileURL = url[0]
+        console.log(fileURL);
+    }
+    console.log("transcribe func")
+    const transcibe = await getTranscibe(fileURL)
+    return res.json({fileURL: fileURL, transcribe: transcibe})
+})
+
+
 const getTranscibe = async (fileURL) => {
     console.log("transcribing")
     // TRANSCIBE FILES
     var assembly = axios.create({ baseURL: "https://api.assemblyai.com/v2",
         headers: {
             authorization: key.ASSEMBLYAI_API_KEY,
-            "content-type": "application/json",
-            "auto_chapters": true,
-            "auto_highlights": true
+            "content-type": "application/json"
         }
     });
-    var p2 = await assembly.post("/transcript", {audio_url: fileURL, "auto_chapters": true})
+    var p2 = await assembly.post("/transcript", {audio_url: fileURL, "auto_chapters": true, "auto_highlights": true})
                             .then((res) => {return res.data})
                             .catch((err) => console.error(err));
     console.log(p2.id)
@@ -75,52 +111,9 @@ const getTranscibe = async (fileURL) => {
 }
 
 
-
-
-router.get('/',(req, res) => {
-    res.sendFile(__dirname +'/home.html')
-})
-
-
-router.post('/convert',upload.single('file'), async (req,res,next) => {
-    var fileURL = null
-    if(req.file){
-        // add file to server
-        console.log("C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path)
-        const filePath = "C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path
-        const fileName = req.file.path
-        // upload file to cloud
-        await storageRef.upload(filePath, {
-            destination: req.file.path,
-          });
-        console.log(`${filePath} uploaded to ${storageRef} as ${req.file.path}`);
-        // get cloud url
-        const options = {
-            action: 'read',
-            expires: Date.now() + 30 * 60 * 1000, // 30 minutes
-          };
-        const url = await storageRef.file(fileName).getSignedUrl(options);
-        console.log('Generated GET signed URL:');
-        fileURL = url[0]
-        console.log(fileURL);
-    }
-    const transcibe = await getTranscibe(fileURL)
-    return res.json({fileURL: fileURL, transcribe: transcibe})
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const processData = async (transcribeData) => {
+    return
+}
 
 
 
