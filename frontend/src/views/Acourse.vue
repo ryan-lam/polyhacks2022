@@ -98,7 +98,26 @@
 		<main :style="{'background-color': colours[drkmode].bgcolour}" class="videopage" v-if="page == 'video'">
 			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}">{{subject}} Video</h1>
 
+			<section class="videoitem" v-for="item in content" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}" @click="gotoVideo(item)">
+				<h2>{{item.title}}</h2>
 
+			</section>
+
+		</main>
+
+		<main :style="{'background-color': colours[drkmode].bgcolour}" class="videopage" v-if="page == 'player'">
+			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}">{{selectedVideo.title}}</h1>
+			<video :src="selectedVideo.videoUrl" controls class="thevideo" id="thevideo"></video>
+			<p class="videopage__desc">{{selectedVideo.content}}</p>
+			<h2>Transcript:</h2>
+			<p class="videopage__tran">{{selectedVideo.text}}</p>
+			<section v-for="chapter in selectedVideo.chapters" class="videopage__chapters" @click="timestamp(chapter.start)">
+				<p class="videopage__chapters--headline">{{chapter.headline}}</p>
+				<p class="videopage__chapters--summary">{{chapter.summary}}</p>
+				<p class="videopage__chapters--stamp">{{chapter.start}} - {{chapter.end}}</p>
+
+				
+			</section>
 		</main>
 
 	
@@ -132,19 +151,7 @@ export default {
 			videoUrl: "",
 			contentID: "",
 			classId:"081c8e48-7dcb-4ee3-9573-3962df4310cb",
-			chapters:[{
-      end: 15650,
-      start: 13010,
-      gist: "Oh that's what's the same",
-      summary: "Oh, that's. Oh, that's. Oh, that's. Oh, that. ’ s oh, that. ’ s.",
-      headline: "Oh that's."
-    },{
-      end: 15650,
-      start: 13010,
-      gist: "Oh that's what's the same",
-      summary: "FfFFFFFFF.",
-      headline: "YAYYYYY"
-    }],
+			chapters:[],
 			selectedchapters:[],
 			posts:[],
 			content:[],
@@ -179,7 +186,15 @@ export default {
 			maincolour: ["#549adb", "#ac7df0"],
 			unhighlight: ["#d7edff", "#ecd7ff"],
 			hovercolour: ["#6fb5f7", "#bb92f7"],
-			maindark: ["#3f7cb4", "#8a58cf"]
+			maindark: ["#3f7cb4", "#8a58cf"],
+			selectedVideo:{
+				title: "",
+				videoUrl: "",
+				chapters:[],
+				text: "",
+				content: "",
+				
+			}
 		}
 	},
 	methods:{
@@ -245,6 +260,21 @@ export default {
 				body: JSON.stringify(thing),
             }).then(response => response.json()).then(data => {console.log(data)});
 		},
+		gotoVideo(item){
+			this.page = "player"
+			this.selectedVideo.videoUrl = item.fileURL;
+			this.selectedVideo.title = item.title;
+			this.selectedVideo.chapters = item.chapters;
+			this.selectedVideo.text = item.text;
+			this.selectedVideo.content = item.content;
+			
+
+		},
+		timestamp(num){
+			console.log("TIMESTAMP");
+			console.log(Math.floor(num/1000));
+			document.getElementById("thevideo").currentTime = Math.floor(num/1000);
+		}
 		
 
 	},
@@ -647,6 +677,53 @@ footer{
 		
 		
 		
+	}
+}
+
+.videoitem{
+	width: 80%;
+	height: 60px;
+	margin: auto;
+	margin-top: 20px;
+	border-radius: 20px;
+	cursor: pointer;
+
+}
+
+.videopage{
+	& > h2{
+		text-align: left;
+		margin-left: 50px;
+	}
+	&__tran{
+		text-align: left;
+		margin-left: 50px;
+	}
+	&__chapters{
+		width: 80%;
+		height: min-content;
+		margin: auto;
+		background-color: white;
+		border-radius: 20px;
+		margin-top: 30px;
+		&:hover{
+			cursor: pointer;
+		}
+
+		& > p{
+			text-align: left;
+
+		}
+
+		&--headline{
+			padding: 20px 30px;
+		}
+		&--summary{
+			padding: 0px 30px;
+		}
+		&--stamp{
+			margin-left: 40px;
+		}
 	}
 }
 footer{
