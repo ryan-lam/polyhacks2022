@@ -36,7 +36,7 @@ var storage = admin.storage();
 var storageRef = admin.storage().bucket();
 app.use("/class", require("./routes/class"))
 app.use("/uploadcontent", require("./routes/uploadcontent"))
-
+app.use("/content", require("./routes/content"))
 
 
 

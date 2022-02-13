@@ -8,6 +8,28 @@ const { FieldValue } = require("firebase/firestore")
 const classDB = db.collection("class")
 const discussionsDB = db.collection("discussions")
 
+router.get("/", async (req, res) => {
+    const classes = []
+    const classList = await classDB.get()
+    classList.forEach((_class) => {classes.push(_class.data())})
+    return res.json({data: classes})
+})
+
+router.post("/createclass", async (req, res) => {
+    const {subject, classCode, teacher} = req.body
+    const classId = v4()
+    var newClass = await classDB.doc(classId).set({
+        id: classId,
+        subject: subject,
+        classCode: classCode,
+        teacher: teacher,
+        discussions: [],
+        content: []
+    })
+    newClass = await classDB.doc(classId).get()
+    return res.send(newClass.data())
+})
+
 router.get("/:classId", async (req, res) => {
     const classId = req.params.classId
     var classDiscussionList = []

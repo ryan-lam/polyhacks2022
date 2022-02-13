@@ -41,7 +41,8 @@ const getTranscibe = async (fileURL) => {
         headers: {
             authorization: key.ASSEMBLYAI_API_KEY,
             "content-type": "application/json",
-            "auto_chapters": true
+            "auto_chapters": true,
+            "auto_highlights": true
         }
     });
     var p2 = await assembly.post("/transcript", {audio_url: fileURL, "auto_chapters": true})
@@ -76,7 +77,7 @@ const getTranscibe = async (fileURL) => {
 
 
 
-router.get('/',(req,res) => {
+router.get('/',(req, res) => {
     res.sendFile(__dirname +'/home.html')
 })
 
@@ -96,7 +97,7 @@ router.post('/convert',upload.single('file'), async (req,res,next) => {
         // get cloud url
         const options = {
             action: 'read',
-            expires: Date.now() + 30 * 60 * 1000, // 15 minutes
+            expires: Date.now() + 30 * 60 * 1000, // 30 minutes
           };
         const url = await storageRef.file(fileName).getSignedUrl(options);
         console.log('Generated GET signed URL:');
