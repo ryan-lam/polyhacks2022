@@ -61,9 +61,10 @@
 
 			<footer></footer>
 
-			<section class="chapter" v-for="(item, index) in chapters">
-				<h2 class="chapter__title">Chapter {{index}} - {{item.headline}}</h2>
-				<p class="chapter__desc">{{item.summary}}</p>
+			<section class="chapter" v-for="(item, index) in chapters" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}">
+				<h2 class="chapter__title" :style="{'color': colours[drkmode].textcolour[getPerson]}">Chapter {{index}} - {{item.headline}}</h2>
+				<p class="chapter__desc" :style="{'color': colours[drkmode].textcolour[getPerson]}">{{item.summary}}</p>
+				<p class="chapter__timestamp" :style="{'color': colours[drkmode].textcolour[getPerson]}">Timestamp: {{item.start}}s - {{item.end}}s</p>
 				<input type="checkbox">
 			</section>
 
@@ -107,7 +108,13 @@ export default {
             subject: this.$store.state.subject,
             page: "discussion",
 			videoUrl: "",
-			chapters:[],
+			chapters:[{
+      end: 15650,
+      start: 13010,
+      gist: "Oh that's what's the same",
+      summary: "Oh, that's. Oh, that's. Oh, that's. Oh, that. ’ s oh, that. ’ s.",
+      headline: "Oh that's."
+    }],
 			videotext: "",
 			confidence: 0,
 			teachertitle:"",
@@ -179,6 +186,8 @@ export default {
 				this.videotext = json.data.text;
 				this.confidence = json.data.confidence*100;
 				json.data.chapters.forEach(element => {
+					element.start = Math.floor(element.start/1000);
+					element.end = Math.floor(element.end/1000);
 					this.chapters.push(element);
 				});
 			})
@@ -453,6 +462,10 @@ footer{
 	&__desc{
 		text-align: left;
 		padding: 10px 20px;
+	}
+	&__timestamp{
+		text-align: left;
+		padding: 5px 20px;
 	}
 	&> input{
 		position: absolute;
