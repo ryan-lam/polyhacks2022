@@ -1,9 +1,11 @@
 # Firebase API
 *firebaseAPI.json
+*firebaseStorageAPI.json
+public/
 
 # AssemblyAI API
 *AssemblyAPI.json
-
+*AssemblyAPI.js
 
 # Logs
 logs

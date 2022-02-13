@@ -109,7 +109,7 @@ nav{
 		& > a{
 			margin-top: 25px;
 			display: block;
-		
+			color: #2c3e50;
 			text-decoration: none;
 			font-size: 20px;
 
