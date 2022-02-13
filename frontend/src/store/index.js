@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
 	state: {
-		person: "Teacher",
+		person: 0,
 		colour: "#549adb",
 		username: "",
 	},
