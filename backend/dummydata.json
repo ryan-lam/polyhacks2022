@@ -1,0 +1,45 @@
+{
+    "createClass": [
+        {
+            "subject":"Linear Algebra 1", 
+            "classCode":"LA101", 
+            "teacher":"Dr. Jane", 
+            "description":"Linear algebra is the study of lines and planes, vector spaces and mappings that are required for linear transforms. It is a relatively young field of study, having initially been formalized in the 1800s in order to find unknowns in systems of linear equations."
+        },
+        {
+            "subject":"Mechanics 1", 
+            "classCode":"PHYS101", 
+            "teacher":"Dr. Smith", 
+            "description":"This course serves as an introduction of the concepts of displacement, strain, stress and constitutive equations of elastic solids in one, two and three dimensions. Study of material properties and solutions of one-dimensional structure members in tension, bending and torsion."
+        },
+        {
+            "subject":"English 1", 
+            "classCode":"ENG101", 
+            "teacher":"Dr. John", 
+            "description":"This course emphasizes the fundamental language skills of reading, writing, speaking, listening, thinking, viewing and presenting. The course includes studies of various literary genres: short story, poetry, novel, drama, and non-fiction."
+        },
+        {
+            "subject":"Computer Science 1", 
+            "classCode":"CS101", 
+            "teacher":"Dr. Doe", 
+            "description":"An introduction to the fundamentals of computer science through the application of elementary programming patterns in the functional style of programming. Function definition and application. Tracing via substitution. Design, testing, and documentation. Recursive data definitions. Lists and trees. Functional and data abstraction."
+        }
+    ],
+    "discussionPost": [
+        {
+            "contentType":"post",
+            "author" :"Johnny Ho", 
+            "title" :"When will our assignments be marked?", 
+            "content" :"When will our assignments be marked? I would like to review the assignments before the midterm"
+        }
+    ],
+    "discussionReply": [
+        {
+            "contentType":"reply",
+            "discussionId":"fedba867-b928-4f8e-9276-96488058a6d4",
+            "author" :"Sally Jones", 
+            "content" :"Prof said by the end of this week"
+        }
+    ]
+
+}

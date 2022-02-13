@@ -16,13 +16,14 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/createclass", async (req, res) => {
-    const {subject, classCode, teacher} = req.body
+    const {subject, classCode, teacher, description} = req.body
     const classId = v4()
     var newClass = await classDB.doc(classId).set({
         id: classId,
         subject: subject,
         classCode: classCode,
         teacher: teacher,
+        description: description,
         discussions: [],
         content: []
     })
@@ -48,11 +49,12 @@ router.post("/discussion/:classId", async (req, res) => {
     if (contentType == "post") {
         // requires: classId, contentType, author, title, content
         const discussionId = v4()
-        const {author, time, title, content} = req.body
+        const {author, title, content} = req.body
         await discussionsDB.doc(discussionId).set({
+            classId: classId,
             id: discussionId,
             author: author,
-            time: time,
+            time: Date.now(),
             title: title,
             content: content,
             replies: []
@@ -65,9 +67,9 @@ router.post("/discussion/:classId", async (req, res) => {
         return res.json(newDiscussion.data())
     } else if (contentType == "reply") {
         // requires, discussionId, author, time, content
-        const {discussionId, author, time, content} = req.body
+        const {discussionId, author, content} = req.body
         await discussionsDB.doc(discussionId).update({
-            replies: admin.firestore.FieldValue.arrayUnion({author:author, time:time, content:content})
+            replies: admin.firestore.FieldValue.arrayUnion({author:author, content:content})
         })
         const newReply = await discussionsDB.doc(discussionId).get()
         console.log(newReply.data())

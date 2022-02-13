@@ -8,6 +8,7 @@ const db = admin.firestore()
 const { FieldValue } = require("firebase/firestore")
 const classDB = db.collection("class")
 const discussionsDB = db.collection("discussions")
+const contentDB = db.collection("content")
 var storage = admin.storage();
 var storageRef = admin.storage().bucket();
 // assembly ai
@@ -41,7 +42,12 @@ router.get('/',(req, res) => {
 })
 
 
-router.post('/convert',upload.single('file'), async (req,res,next) => {
+router.post('/convert', upload.single('file'), async (req, res) => {
+    // const {classId, title, content, videoURL} = req.body 
+    // const {classId, title, content} = req.body
+    const classId = "0d4ac463-5e5c-4f27-9823-3505d9f7a2bb"
+    const title = "content title"
+    const content = "content content"
     var fileURL = null
     if(req.file){
         // add file to server
@@ -66,11 +72,33 @@ router.post('/convert',upload.single('file'), async (req,res,next) => {
         fileURL = url[0]
         console.log(fileURL);
     }
+    // TRANSCRIBE THE VID
     console.log("transcribe func")
-    const transcibe = await getTranscibe(fileURL)
-    return res.json({fileURL: fileURL, transcribe: transcibe})
+    const transcription = await getTranscibe(fileURL)
+    // PROCESS TRANSCIBE DATA
+    const transcriptionData = {
+        fileURL: fileURL,
+        transcriptionId: transcription.id,
+        text: transcription.text,
+        confidence: transcription.confidence,
+        audioLength: transcription.audio_duration,
+        chapters: transcription.chapters,
+        highlights: transcription.auto_highlights_result.results
+    }
+    console.log(transcriptionData)
+    // // CREATE CONTENT IN DATABASE
+    const contentMetadata = {
+        classId: classId, 
+        title: title, 
+        content: content, 
+    }
+    const CONTENT_DATA = await addDataToDB(transcriptionData, contentMetadata)
+    console.log(CONTENT_DATA)
+    // RETURN THE CONTENT
+    // return res.send("ok")
+    // return res.json({fileURL: fileURL, transcribe: transcription})
+    return res.send(CONTENT_DATA)
 })
-
 
 const getTranscibe = async (fileURL) => {
     console.log("transcribing")
@@ -110,9 +138,26 @@ const getTranscibe = async (fileURL) => {
     return p3
 }
 
-
-const processData = async (transcribeData) => {
-    return
+const addDataToDB = async (transcriptionData, contentMetadata) => {
+    const contentId = v4()
+    await contentDB.doc(contentId).set({
+        id:contentId,
+        fileURL: transcriptionData.fileURL,
+        transcriptionId: transcriptionData.transcriptionId,
+        text: transcriptionData.text,
+        confidence: transcriptionData.confidence,
+        audioLength: transcriptionData.audioLength,
+        chapters: transcriptionData.chapters,
+        highlights: transcriptionData.highlights,
+        classId: contentMetadata.classId, 
+        title: contentMetadata.title, 
+        content: contentMetadata.content
+    })
+    await classDB.doc(contentMetadata.classId).update({
+        content: admin.firestore.FieldValue.arrayUnion(contentId)
+    })
+    const contentData = await contentDB.doc(contentId).get()
+    return contentData.data()
 }
 
 
