@@ -52,9 +52,9 @@ router.post('/convert', upload.single('file'), async (req, res) => {
     if(req.file){
         // add file to server
         console.log("add file to server")
-        // console.log("C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path)
-        // const filePath = "C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path
-        const filePath = "/Users/jaxz/Desktop/polyhacks2022/backend/" + req.file.path
+        console.log("C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path)
+        const filePath = "C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path
+        // const filePath = "/Users/jaxz/Desktop/polyhacks2022/backend/" + req.file.path
         const fileName = req.file.path
         // upload file to cloud
         console.log("Add file to gcloud")
@@ -97,8 +97,7 @@ router.post('/convert', upload.single('file'), async (req, res) => {
     console.log(CONTENT_DATA)
     // RETURN THE CONTENT
     // return res.send("ok")
-    // return res.json({fileURL: fileURL, transcribe: transcription})
-    return res.send(CONTENT_DATA)
+    return res.json({data: CONTENT_DATA})
 })
 
 const getTranscibe = async (fileURL) => {
