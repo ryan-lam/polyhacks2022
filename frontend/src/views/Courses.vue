@@ -40,7 +40,7 @@
 			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}">My Courses</h1>
 			<section class="container">
 
-				<div class="container__courses" v-for="item in courses" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}" @click="goCourse(item.url, item.subject)">
+				<div class="container__courses" v-for="item in courses" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}" @click="goCourse(item.url, item.subject, item.id)">
 					<div class="container__courses--image"></div>
 					
 					<h2 class="container__courses--title" :style="{'color': colours[drkmode].textcolour[getPerson]}">{{item.subject}}</h2>
@@ -131,8 +131,8 @@ export default {
 			}
 			
 		},
-		goCourse(routelink, subject){
-			console.log("WORKK");
+		goCourse(routelink, subject, id){
+			this.$store.commit("changeClassID", id);
 			this.$store.commit("changeSubject", subject);
 			this.$router.push(`/courses/${routelink}`);
 		}

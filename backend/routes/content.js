@@ -19,9 +19,10 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/configcontent", async (req, res) => {
-    const {timestamps, title, content, contentId} = req.body
+    const {timestamps, title, content, contentId, classId} = req.body
     await contentDB.doc(contentId).set({
         title:title,
+        classId: classId,
         content:content,
         timestamps:timestamps,
     }, {merge: true})

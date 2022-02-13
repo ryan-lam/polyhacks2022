@@ -1,5 +1,4 @@
 <template>
-	
 		<nav class="nav" :style="{'background-color': colours[drkmode].maincolour[getPerson] }">
 			<div class="nav__header">
 				<img src="../assets/img/profile.png" alt="" class="nav__header--pfp">
@@ -39,10 +38,28 @@
 			</div>
 			
 		</nav>
+
+
 		<main :style="{'background-color': colours[drkmode].bgcolour}" class="discussion" v-if="page == 'discussion'">
 			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}">{{subject}} Discussion</h1>
+
+			<section class="makepost" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}">
+				<div style="height: 30px"></div>
+				<input type="text" placeholder="title">
+				<textarea name="content" id="" cols="30" rows="10"></textarea>
+				<button class="makepost__button">Post</button>
+				<div style="height: 30px"></div>
+			</section>
+
+			<section class="post" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}" v-for="post in posts">
+				<h2 class="post__title" :style="{'color': colours[drkmode].titlecolour[getPerson]}">{{post.title}}</h2>
+				<p class="post__content" :style="{'color': colours[drkmode].textcolour}">{{post.content}}</p>
+				<div class="post__divider" :style="{'background-color': colours[drkmode].maincontrast[getPerson]}"></div>
+				<p class="post__author" :style="{'color': colours[drkmode].textcolour}">Written by: {{post.author}}</p>
+			</section>
 		</main>
 
+		<!-- TEACHER ONLY -->
         <main :style="{'background-color': colours[drkmode].bgcolour}" class="upload" v-else-if="page == 'upload'">
 			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}" >Upload video for {{subject}}</h1>
 
@@ -56,27 +73,32 @@
 			</video>
 
 			<footer></footer>
-			<p :style="{'color': colours[drkmode].textcolour[getPerson]}">Text: {{videotext}}</p>
-			<p :style="{'color': colours[drkmode].textcolour[getPerson]}">Confidence Level: {{confidence}}%</p>
+			<p :style="{'color': colours[drkmode].textcolour}">Text: {{videotext}}</p>
+			<p :style="{'color': colours[drkmode].textcolour}">Confidence Level: {{confidence}}%</p>
 
 			<footer></footer>
 
 			<section class="chapter" v-for="(item, index) in chapters" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}">
-				<h2 class="chapter__title" :style="{'color': colours[drkmode].textcolour[getPerson]}">Chapter {{index}} - {{item.headline}}</h2>
-				<p class="chapter__desc" :style="{'color': colours[drkmode].textcolour[getPerson]}">{{item.summary}}</p>
-				<p class="chapter__timestamp" :style="{'color': colours[drkmode].textcolour[getPerson]}">Timestamp: {{item.start}}s - {{item.end}}s</p>
-				<input type="checkbox">
+				<h2 class="chapter__title" :style="{'color': colours[drkmode].textcolour}">Chapter {{index}} - {{item.headline}}</h2>
+				<p class="chapter__desc" :style="{'color': colours[drkmode].textcolour}">{{item.summary}}</p>
+				<p class="chapter__timestamp" :style="{'color': colours[drkmode].textcolour}">Timestamp: {{item.start}}s - {{item.end}}s</p>
+				<input type="checkbox" :value="item" v-model="selectedchapters">
+		
 			</section>
 
 
-			<input type="text" placeholder="Input Title" v-model="teachertitle">
-			<input type="textbox" placeholder="Input description" v-model="teacherdesc">
-			<button>Submit</button>
+			<input type="text" placeholder="Input Title" v-model="teachertitle" :style="{'background-color': colours[drkmode].inputbg, 'color': colours[drkmode].textcolour}">
+			<input type="text" placeholder="Input description" v-model="teacherdesc" :style="{'background-color': colours[drkmode].inputbg, 'color': colours[drkmode].textcolour}">
+			<button @click="submitChapters()">Submit</button>
+		
 			<footer></footer>
 		</main>
 
-		<main :style="{'background-color': colours[drkmode].bgcolour}" class="discussion" v-if="page == 'video'">
+		<!-- STUDENT ONLY -->
+		<main :style="{'background-color': colours[drkmode].bgcolour}" class="videopage" v-if="page == 'video'">
 			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}">{{subject}} Video</h1>
+
+
 		</main>
 
 	
@@ -108,13 +130,24 @@ export default {
             subject: this.$store.state.subject,
             page: "discussion",
 			videoUrl: "",
+			contentID: "",
+			classId:"081c8e48-7dcb-4ee3-9573-3962df4310cb",
 			chapters:[{
       end: 15650,
       start: 13010,
       gist: "Oh that's what's the same",
       summary: "Oh, that's. Oh, that's. Oh, that's. Oh, that. ’ s oh, that. ’ s.",
       headline: "Oh that's."
+    },{
+      end: 15650,
+      start: 13010,
+      gist: "Oh that's what's the same",
+      summary: "FfFFFFFFF.",
+      headline: "YAYYYYY"
     }],
+			selectedchapters:[],
+			posts:[],
+			content:[],
 			videotext: "",
 			confidence: 0,
 			teachertitle:"",
@@ -127,8 +160,9 @@ export default {
 					maincontrast: [styles.main_dark_teacher, styles.main_dark_student],
 					titlecolour: ["#2c3e50", "#2c3e50"],
 					bgcourse: ["#fff", "#fff"],
-					textcolour: ["#2c3e50", "#2c3e50"],
+					textcolour: "#2c3e50",
 					bgcolour: styles.light_background,
+					inputbg: "#fff",
 
 				},
 				dark:{
@@ -137,8 +171,9 @@ export default {
 					titlecolour: ["#6fb5f7", "#bb92f7"],
 					maincontrast: [styles.main_light_teacher, styles.main_light_student],
 					bgcourse: [styles.main_dark_teacher, styles.main_dark_student],
-					textcolour: ["#fff", "#fff"],
+					textcolour: "#ffffff",
 					hovercolour: [styles.main_light_teacher, styles.main_light_student],
+					inputbg: "#2e2e2e",
 				}
 			},
 			maincolour: ["#549adb", "#ac7df0"],
@@ -185,6 +220,7 @@ export default {
 				this.videoUrl = json.data.fileURL;
 				this.videotext = json.data.text;
 				this.confidence = json.data.confidence*100;
+				this.contentID = json.data.id;
 				json.data.chapters.forEach(element => {
 					element.start = Math.floor(element.start/1000);
 					element.end = Math.floor(element.end/1000);
@@ -192,19 +228,71 @@ export default {
 				});
 			})
 			.catch(err => console.error(err));
-		}
-	
+		},
+		submitChapters(){
+			let thing = { 
+				classId: this.$store.state.classID,
+				contentId: this.contentID,
+				title: this.teachertitle,
+				content: this.teacherdesc,
+				timestamps: this.selectedchapters,
+			};
+			const responsepromise = fetch(`http://localhost:3000/content/configcontent`, {
+                method: 'POST',
+                headers: {
+                   'Content-Type': 'application/json',
+                },
+				body: JSON.stringify(thing),
+            }).then(response => response.json()).then(data => {console.log(data)});
+		},
+		
+
 	},
-	mounted(){
+	async mounted(){
 		this.drkmode = this.$store.state.mode;
         console.log("Mode is currently " + this.drkmode);
 		if(this.drkmode == "dark"){
-            console.log("ACTIVATED BEING CHEKCED");
 			this.checked = "true";
 		}else{
-            console.log("ACTIVATED BEING CHEKCED");
 			this.checked = "false";
 		}
+		console.log("class id is currently " + this.$store.state.classID);
+		
+		const prom = await fetch(`http://localhost:3000/class/${this.$store.state.classID}`,{
+			method: "GET",
+
+			}).then(response => response.json()).then(data => {
+			console.log("GETTING DISCUSSION DATA!!");
+			console.log(data.data);
+			data.data.forEach(element => {
+				this.posts.push(element);
+			})
+
+
+		});
+
+		const prom2 = fetch(`http://localhost:3000/content/${this.$store.state.classID}`,{
+			method: "GET",
+
+			}).then(response => response.json()).then(data => {
+			console.log("GETTING VIDEO DATA!!");
+			console.log(data.data);
+			data.data.forEach(element => {
+				this.content.push(element);
+			})
+
+
+		});
+
+	},
+	updated(){
+		console.log("UPDATEDD");
+	},
+	activated(){
+		console.log("ACTIVATEDD");
+	},
+	beforeUpdate(){
+		console.log("BEFORE UPDATE");
 	}
 }
 </script>
@@ -410,7 +498,8 @@ main{
 		display: block;
 		width: 500px;
 		margin: auto;
-		margin-top: 20px;
+		margin-top: 30px;
+		font-size: 20px;
 
 	}
 	&> input:nth-child(2){
@@ -453,6 +542,9 @@ footer{
 	width: 80%;
 	margin: auto;
 	position: relative;
+	padding: 10px 0px;
+	border-radius: 20px;
+	margin-top: 20px;
 
 	&__title{
 		text-align: left;
@@ -478,6 +570,85 @@ footer{
 
 }
 
+.post{
+	width: 80%;
+	margin: auto;
+	border-radius: 20px;
+	margin-top: 20px;
+	&__title{
+		text-align: left;
+		padding: 20px 30px;
+	}
+	&__content{
+		text-align: left;
+		padding: 0px 30px;
+	}
+	&__divider{
+		width: 95%;
+		height: 1px;
+		margin: auto;
+		margin-top: 10px;
+
+	}
+	&__author{
+		text-align: left;
+		padding: 10px 30px;
+	}
+
+}
+
+.makepost{
+	width: 80%;
+	margin: auto;
+	border-radius: 20px;
+	height: min-content;
+	position: relative;
+	& > input{
+		padding: 10px 20px;
+		text-align: left;
+		display: block;
+		width: clamp(200px, 40%, 500px);
+		margin-left: 30px;
+		
+		font-size: 20px;
+		background-color: rgb(218, 232, 245);
+		border-radius: 20px;
+
+	}
+
+	& > textarea{
+		width: calc(100% - 60px);
+		margin: auto;
+		background-color: rgb(218, 232, 245);
+		margin-top: 20px;
+		height: 100px;
+		font-size: 15px;
+		padding: 20px 20px;
+
+	}
+
+	&__button{
+		display: block;
+		width: 200px;
+		// position: absolute;
+		// top: 100%;
+		// left: 100%;
+		// transform: translate(-230px, -30px);
+		margin-left: calc(100% - 230px);
+		margin-top: 10px;
+		background: rgb(172,125,240);
+		background: linear-gradient(344deg, rgba(172,125,240,1) 0%, rgba(84,154,219,1) 100%);
+		color: white;
+		&:hover{
+			background: rgb(138,88,207);
+			background: linear-gradient(344deg, rgba(138,88,207,1) 0%, rgba(63,124,180,1) 100%);
+		}
+		
+		
+		
+		
+	}
+}
 footer{
 	height: 50px;
 	width: 100%;

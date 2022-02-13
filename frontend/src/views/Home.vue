@@ -2,7 +2,7 @@
 	<div class="shadow" v-show="showed" @click="close"></div>
 	<main>
 		<nav>
-			<h1>COURODE</h1>
+			<h1>ClassAI</h1>
 			<section class="links">
 				<div class="links__item">
 					<a href="#">Home</a>

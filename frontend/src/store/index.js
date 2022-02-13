@@ -6,6 +6,7 @@ export default createStore({
 		username: "",
 		mode: "light",
 		subject: "",
+		classID:"081c8e48-7dcb-4ee3-9573-3962df4310cb",
 		
 
 	},
@@ -21,6 +22,9 @@ export default createStore({
 		},
 		changeSubject(state, subject){
 			state.subject = subject;
+		},
+		changeClassID(state, id){
+			state.classID = id;
 		}
 
 	},
