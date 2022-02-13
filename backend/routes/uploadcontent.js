@@ -66,7 +66,7 @@ router.post('/convert', upload.single('file'), async (req, res) => {
         console.log("Get gcloud url")
         const options = {
             action: 'read',
-            expires: Date.now() + 180 * 60 * 1000, // 3h
+            expires: Date.now() + 180 * 60 * 1000, // 3h expire
           };
         const url = await storageRef.file(fileName).getSignedUrl(options);
         console.log('Generated GET signed URL:');
