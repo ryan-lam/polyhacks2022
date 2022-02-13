@@ -48,7 +48,7 @@ router.post('/convert', upload.single('file'), async (req, res) => {
     const classId = "0d4ac463-5e5c-4f27-9823-3505d9f7a2bb"
     const title = "content title"
     const content = "content content"
-    var fileURL = null
+    var fileURL =  null
     if(req.file){
         // add file to server
         console.log("add file to server")
@@ -98,7 +98,7 @@ router.post('/convert', upload.single('file'), async (req, res) => {
     // RETURN THE CONTENT
     // return res.send("ok")
     // return res.json({fileURL: fileURL, transcribe: transcription})
-    return res.send(CONTENT_DATA)
+    return res.json({data: CONTENT_DATA})
 })
 
 const getTranscibe = async (fileURL) => {
