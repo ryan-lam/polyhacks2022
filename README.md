@@ -50,7 +50,7 @@ ClassAI est une plateforme de classe où les enseignants peuvent publier des cou
 Nous avons également mis en place une discussion en classe pour que les étudiants puissent discuter entre eux. Nous avons également une UI/UX incroyable ainsi qu'un mode sombre (nous pouvons donc étudier à 2h du matin la veille de l'examen 😆)
 
 ## Comment nous l'avons construit
-Nous avons construit la fonctionnalité principale (traitement de la vidéo avec l'IA) en utilisant le flux de travail suivant :
+Nous avons construit la fonctionnalité principale (traitement de la vidéo avec l'IA) en utilisant le flux de travail suivant:
 
 Téléchargez la vidéo sur notre backend -> Téléchargez la vidéo de notre backend vers le cloud et obtenez l'URL publique -> Transmettez l'URL à l'API de AssemblyAI pour traiter la vidéo -> Obtenez les données résultantes de l'API de AssemblyAI -> Traiter/nettoyer les données pour les informations de base dont nous avons besoin -> Télécharger les informations et les métadonnées dans notre base de données Firebase -> Afficher les informations à l'enseignant pour la configuration -> Enregistrer les configurations de l'enseignant -> La vidéo et les horodatages/résumés peuvent désormais être vus par les étudiants
 
