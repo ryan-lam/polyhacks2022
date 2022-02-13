@@ -57,14 +57,14 @@ export default {
 			this.showed = true;
 			this.person = "Teacher";
 			this.bcolour = "#549adb";
-			this.$store.commit("changePerson", "Teacher");
+			this.$store.commit("changePerson", 0);
 			this.$store.commit("changeColour", "#549adb");
 		},
 		studentLogin(){
 			this.showed = true;
 			this.person = "Student";
 			this.bcolour = "#ac7df0";
-			this.$store.commit("changePerson", "Student");
+			this.$store.commit("changePerson", 1);
 			this.$store.commit("changeColour", "#ac7df0");
 		},
 		close(){
