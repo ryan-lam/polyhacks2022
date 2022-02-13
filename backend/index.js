@@ -1,24 +1,39 @@
-// import express from "express"
 const express = require("express")
-// import cors from "cors"
 const cors = require("cors")
-// import {v4} from "uuid"
 const {v4} = require("uuid")
-// import bodyParser from "body-parser"
 const bodyParser = require("body-parser")
-
 const app = express()
 app.use(cors())
 app.use(bodyParser.json())
-
-// import admin from "firebase-admin"
+// storage
+const { exec } = require('child_process')
+const path = require('path')
+const multer = require('multer')
+var dir = 'public';
+var subDirectory = 'public/uploads'
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
+var upload = multer({storage:storage})
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
+app.use(express.static('public'))
+// firebase
 var admin = require("firebase-admin");
-// import serviceAccount from "./firebaseAPI"
 var serviceAccount = require("./firebaseAPI.json");
+var storageAccount = require("./firebaseStorageAPI.json");
+const { getStorage } = require('firebase-admin/storage');
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: storageAccount.storageBucket
 });
-
+var storage = admin.storage();
+var storageRef = admin.storage().bucket();
 app.use("/class", require("./routes/class"))
 app.use("/uploadcontent", require("./routes/uploadcontent"))
 
