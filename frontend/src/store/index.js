@@ -5,6 +5,7 @@ export default createStore({
 		person: 0,
 		username: "",
 		mode: "light",
+		
 
 	},
 	mutations: {

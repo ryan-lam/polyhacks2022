@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Courses from '../views/Courses.vue'
+import Acourse from '../views/Acourses.vue'
 
 const routes = [
   {
@@ -16,6 +17,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: Courses
 
+  },
+  {
+    path: '/courses/:subject',
+    name: 'Acourse',
+    component: Acourse
   }
 ]
 
