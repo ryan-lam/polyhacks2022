@@ -33,7 +33,7 @@
 			
 		</nav>
 		<main :style="{'background-color': colours[drkmode].bgcolour}">
-			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}">My Courses</h1>
+			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}">{{$route.params.subject}}</h1>
 			<section class="container">
 				<div class="container__courses" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}">
 					<div class="container__courses--image"></div>
@@ -125,11 +125,14 @@ export default {
 		}
 	
 	},
-	activated(){
+	mounted(){
 		this.drkmode = this.$store.state.mode;
+        console.log("Mode is currently " + this.drkmode);
 		if(this.drkmode == "dark"){
+            console.log("ACTIVATED BEING CHEKCED");
 			this.checked = "true";
 		}else{
+            console.log("ACTIVATED BEING CHEKCED");
 			this.checked = "false";
 		}
 	}

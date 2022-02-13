@@ -35,7 +35,7 @@
 		<main :style="{'background-color': colours[drkmode].bgcolour}">
 			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}">My Courses</h1>
 			<section class="container">
-				<div class="container__courses" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}">
+				<div class="container__courses" :style="{'background-color': colours[drkmode].bgcourse[getPerson]}" @click="goCourse('linearalgebra')">
 					<div class="container__courses--image"></div>
 					
 					<h2 class="container__courses--title" :style="{'color': colours[drkmode].textcolour[getPerson]}">Linear Algebra</h2>
@@ -122,16 +122,21 @@ export default {
 				this.drkmode = "light";
 			}
 			
+		},
+		goCourse(routelink){
+			this.$router.push(`/courses/${routelink}`);
 		}
 	
 	},
-	activated(){
+	mounted(){
 		this.drkmode = this.$store.state.mode;
 		if(this.drkmode == "dark"){
 			this.checked = "true";
 		}else{
 			this.checked = "false";
 		}
+
+		const prom = fetch("http://localhost:3000/class", {method: 'GET',}).then(response => response.json()).then(data => console.log(data));
 	}
 }
 </script>
