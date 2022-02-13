@@ -21,7 +21,7 @@
 			</div>
 			<div class="switch">
 				<label class="theme-switch" for="checkbox">
-					<input type="checkbox" id="checkbox" true-value="dark" false-value="light" v-model="drkmode" />
+					<input type="checkbox" id="checkbox" v-model="checked" @click="changeMode()"/>
 					<div class="slider round"></div>
 				</label>
 				<p :style="{'color': unhighlight[getPerson]}">Dark Mode</p>
@@ -71,12 +71,13 @@ export default {
 		},
 		getPerson(){
 			return this.$store.state.person;
-		}
+		},
+	
 	},
 	data(){
 		return{
 			drkmode: "light",
-			
+			checked: "false",
 			colours:{
 				light: {
 					maincolour: [styles.main_light_teacher, styles.main_light_student],
@@ -109,7 +110,28 @@ export default {
 		home(){
 			this.$router.push("/");
 		},
+		changeMode(){
+			if(this.drkmode == "light"){
+
+				this.$store.commit("changeMode", "dark");
+				this.drkmode = "dark";
+				
+			}else{
+			
+				this.$store.commit("changeMode", "light");
+				this.drkmode = "light";
+			}
+			
+		}
 	
+	},
+	activated(){
+		this.drkmode = this.$store.state.mode;
+		if(this.drkmode == "dark"){
+			this.checked = "true";
+		}else{
+			this.checked = "false";
+		}
 	}
 }
 </script>

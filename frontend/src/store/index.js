@@ -4,7 +4,7 @@ export default createStore({
 	state: {
 		person: 0,
 		username: "",
-		
+		mode: "light",
 
 	},
 	mutations: {
@@ -14,6 +14,9 @@ export default createStore({
 		changeUsername(state, name){
 			state.username = name;
 		},
+		changeMode(state, mode){
+			state.mode = mode;
+		}
 
 	},
 	actions: {
