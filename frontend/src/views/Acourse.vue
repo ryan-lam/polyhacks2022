@@ -18,7 +18,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="36px" viewBox="0 0 24 24" width="36px" :fill="unhighlight[getPerson]"><g><rect fill="none" height="24" width="24"/></g><g><g><path d="M14,2H6C4.9,2,4.01,2.9,4.01,4L4,20c0,1.1,0.89,2,1.99,2H18c1.1,0,2-0.9,2-2V8L14,2z M18,20H6V4h7v5h5V20z M8,15.01 l1.41,1.41L11,14.84V19h2v-4.16l1.59,1.59L16,15.01L12.01,11L8,15.01z"/></g></g></svg>
 				<p :style="{'color': unhighlight[getPerson]}">Upload</p>
 			</div>
-			<div class="nav__item" :style="{'--hoveritem': colours[drkmode].hovercolour[getPerson]}" v-if="getPerson == 1">
+			<div class="nav__item" :style="{'--hoveritem': colours[drkmode].hovercolour[getPerson]}" v-if="getPerson == 1" @click="changePage('video')">
 				<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="36px" viewBox="0 0 24 24" width="36px" :fill="unhighlight[getPerson]"><g><rect fill="none" height="24" width="24" y="0"/></g><g><g><polygon points="9.5,7.5 9.5,16.5 16.5,12"/><path d="M20,4H4C2.9,4,2,4.9,2,6v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,18.01H4V5.99h16V18.01z"/></g></g></svg>
 				<p :style="{'color': unhighlight[getPerson]}">Video</p>
 			</div>
@@ -46,10 +46,36 @@
         <main :style="{'background-color': colours[drkmode].bgcolour}" class="upload" v-else-if="page == 'upload'">
 			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}" >Upload video for {{subject}}</h1>
 
-            <section action="http://localhost:3000/uploadcontent/convert" method="POST" enctype="multipart/form-data" class="upload__form">
+            <section class="upload__form">
                 <input type="file" class="upload__form--file" name="file" required>
                 <button class="upload__form--button" @click="uploadFile()">Convert to Mp3</button>
             </section>
+
+			<video :src="videoUrl" class="teachervideo" autoplay controls>
+
+			</video>
+
+			<footer></footer>
+			<p :style="{'color': colours[drkmode].textcolour[getPerson]}">Text: {{videotext}}</p>
+			<p :style="{'color': colours[drkmode].textcolour[getPerson]}">Confidence Level: {{confidence}}%</p>
+
+			<footer></footer>
+
+			<section class="chapter" v-for="(item, index) in chapters">
+				<h2 class="chapter__title">Chapter {{index}} - {{item.headline}}</h2>
+				<p class="chapter__desc">{{item.summary}}</p>
+				<input type="checkbox">
+			</section>
+
+
+			<input type="text" placeholder="Input Title" v-model="teachertitle">
+			<input type="textbox" placeholder="Input description" v-model="teacherdesc">
+			<button>Submit</button>
+			<footer></footer>
+		</main>
+
+		<main :style="{'background-color': colours[drkmode].bgcolour}" class="discussion" v-if="page == 'video'">
+			<h1 :style="{'color': colours[drkmode].titlecolour[getPerson]}">{{subject}} Video</h1>
 		</main>
 
 	
@@ -80,6 +106,12 @@ export default {
 			checked: "false",
             subject: this.$store.state.subject,
             page: "discussion",
+			videoUrl: "",
+			chapters:[],
+			videotext: "",
+			confidence: 0,
+			teachertitle:"",
+			teacherdesc:"",
 			colours:{
 				light: {
 					maincolour: [styles.main_light_teacher, styles.main_light_student],
@@ -129,16 +161,27 @@ export default {
             this.page = page;
         },
 		uploadFile(){
-			const input = document.getElementsByClassName("upload__form--file");
-			const fd = new FormData();
-    		fd.append('avatar', input.files[0]);
+		
+			let input = document.getElementsByClassName("upload__form--file");
+		
+			let fd = new FormData();
+		
+    		fd.append('file', input[0].files[0]);
+		
 			fetch('http://localhost:3000/uploadcontent/convert', {
-				headers: {
-                   'Content-Type': 'application/json',
-                },
+			
         		method: 'POST',
         		body: fd
-    		}).then(res => res.json()).then(json => console.log(json))
+    		}).then(res => res.json()).then(json => {
+				console.log(json);
+				console.log(json.data.fileURL);
+				this.videoUrl = json.data.fileURL;
+				this.videotext = json.data.text;
+				this.confidence = json.data.confidence*100;
+				json.data.chapters.forEach(element => {
+					this.chapters.push(element);
+				});
+			})
 			.catch(err => console.error(err));
 		}
 	
@@ -350,10 +393,80 @@ main{
 			}
 		}
     }
+	
+	
+	& > input{
+		padding: 10px 20px;
+		text-align: left;
+		display: block;
+		width: 500px;
+		margin: auto;
+		margin-top: 20px;
+
+	}
+	&> input:nth-child(2){
+		height: 60px;
+	}
+
+	&>button{
+		margin-top: 20px;
+		background: rgb(172,125,240);
+		background: linear-gradient(344deg, rgba(172,125,240,1) 0%, rgba(84,154,219,1) 100%);
+		color: white;
+		&:hover{
+			background: rgb(138,88,207);
+			background: linear-gradient(344deg, rgba(138,88,207,1) 0%, rgba(63,124,180,1) 100%);
+		}
+		width: 200px;
+
+	}
 }
 
 footer{
 	height: 100px;
+	width: 100%;
+	visibility: hidden;
+}
+
+.teachervideo{
+	background-color: blue;
+	
+	display: block;
+	margin: auto;
+	
+	margin-top: 50px;
+
+}
+
+.chapter{
+	
+	background-color: aqua;
+	width: 80%;
+	margin: auto;
+	position: relative;
+
+	&__title{
+		text-align: left;
+		padding: 10px 20px;
+	}
+
+	&__desc{
+		text-align: left;
+		padding: 10px 20px;
+	}
+	&> input{
+		position: absolute;
+		top: 50%;
+		left: 100%;
+		transform: translate(-50px, -50%);
+		width: 20px;
+		height: 20px;
+	}
+
+}
+
+footer{
+	height: 50px;
 	width: 100%;
 	visibility: hidden;
 }
