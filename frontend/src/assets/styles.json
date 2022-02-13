@@ -1,0 +1,12 @@
+{
+    "main_dark_teacher": "#0f3d66",
+    "main_dark_student": "#471f80",
+
+    "main_light_teacher": "#549adb",
+    "main_light_student": "#ac7df0",
+
+    "dark_background": "#1f1f1f",
+    "light_background": "#f5f5fc"
+
+   
+}
