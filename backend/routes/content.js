@@ -11,6 +11,25 @@ const discussionsDB = db.collection("discussions")
 const contentDB = db.collection("content")
 
 
+
+router.get("/", async (req, res) => {
+    const {contentId} = req.body
+    const content = await contentDB.doc(contentId).get()
+    return res.json({data: content.data()})
+})
+
+router.post("/configcontent", async (req, res) => {
+    const {timestamps, title, content, contentId} = req.body
+    await contentDB.doc(contentId).set({
+        title:title,
+        content:content,
+        timestamps:timestamps,
+    }, {merge: true})
+    const contentItem = await contentDB.doc(contentId).get()
+    return res.json({data: contentItem.data()})
+})
+
+
 router.get("/:classId", async (req, res) => {
     const classId = req.params.classId
     var contentList = []
@@ -18,6 +37,8 @@ router.get("/:classId", async (req, res) => {
     content.forEach((contentItem) => {contentList.push(contentItem.data())})
     return res.json({data: contentList})
 })
+
+
 
 router.post("/createcontent", async (req, res) => {
     const contentId = v4()
