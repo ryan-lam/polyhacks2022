@@ -46,8 +46,9 @@ router.post('/convert',upload.single('file'), async (req,res,next) => {
     if(req.file){
         // add file to server
         console.log("add file to server")
-        console.log("C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path)
-        const filePath = "C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path
+        // console.log("C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path)
+        // const filePath = "C:/Users/Ryan Lam/Desktop/polyhacks2022/backend/" + req.file.path
+        const filePath = "/Users/jaxz/Desktop/polyhacks2022/backend/" + req.file.path
         const fileName = req.file.path
         // upload file to cloud
         console.log("Add file to gcloud")

@@ -5,6 +5,7 @@ export default createStore({
 		person: 0,
 		username: "",
 		mode: "light",
+		subject: "",
 		
 
 	},
@@ -17,6 +18,9 @@ export default createStore({
 		},
 		changeMode(state, mode){
 			state.mode = mode;
+		},
+		changeSubject(state, subject){
+			state.subject = subject;
 		}
 
 	},
