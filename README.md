@@ -1,9 +1,10 @@
 # ClassAI - PolyHacks 2022
 
-# Video
-[![ClassAI Video Demo](https://github.com/ryan-lam/polyhacks2022/blob/main/logo.png)](https://www.youtube.com/watch?v=_WmUKMGbOM4 "ClassAI Video Demo")
+# Video (Click Image for Video)
+[![Check here to view ClassAI Demo Video](https://github.com/ryan-lam/polyhacks2022/blob/main/logo.png)](https://www.youtube.com/watch?v=_WmUKMGbOM4 "ClassAI Video Demo")
 
-
+## DevPost Link
+[Click here to visit project on DevPost](https://devpost.com/software/classai-hw84is)
 
 # English
 ## Inspiration
